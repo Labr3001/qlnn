@@ -1,0 +1,67 @@
+CREATE TABLE BangGiaPhong (
+    loaiPhong nvarchar(30) primary key,
+	gia int not null
+);
+
+CREATE TABLE Phong (
+    tenPhong int primary key,
+	loaiPhong nvarchar(30),
+	foreign key(loaiPhong) references BangGiaPhong(loaiPhong),
+);
+CREATE TABLE KhachHang (
+    CCCD varchar(13) primary key,
+    tenKH nvarchar(100) not null,
+    namSinhKH int
+);
+CREATE TABLE PhongDat (
+    idPhongDat int IDENTITY(0,1) primary key,
+	tenPhong int,
+	CCCD varchar(13),
+	foreign key(tenPhong) references Phong(tenPhong),
+	foreign key(CCCD) references KhachHang(CCCD),
+	gioDat Datetime DEFAULT GETDATE(),
+	gioTra Datetime,
+);
+CREATE TABLE SanPham (
+    idSanPham int IDENTITY(100,1) primary key,
+	tenSanPham nvarchar(100),
+	gia int not null
+);
+CREATE TABLE PhuThu (
+	idPhongDat int,
+	idSanPham int,
+    foreign key (idPhongDat) references PhongDat(idPhongDat),
+	foreign key (idSanPham) references SanPham(idSanPham),
+	soLuong int,
+	CONSTRAINT phuthu_pk primary key(idPhongDat,idSanPham)
+);
+CREATE TABLE DangNhap(
+	taiKhoan varchar(20),
+	matKhau varchar(20),
+);
+INSERT INTO DangNhap
+VALUES ('admin','admin');
+INSERT INTO BangGiaPhong
+VALUES (N'1 giường nhỏ','90000');
+INSERT INTO BangGiaPhong
+VALUES (N'1 giường lớn','160000');
+INSERT INTO BangGiaPhong
+VALUES (N'2 giường nhỏ','150000');
+INSERT INTO BangGiaPhong
+VALUES (N'2 giường lớn','250000');
+INSERT INTO SanPham
+VALUES (N'Nước lọc','20000');
+INSERT INTO SanPham
+VALUES (N'Nước khoáng','25000');
+INSERT INTO SanPham
+VALUES (N'Coca cola','25000');
+INSERT INTO SanPham
+VALUES (N'Mirinda','25000');
+INSERT INTO SanPham
+VALUES (N'Bò Húc','30000');
+INSERT INTO SanPham
+VALUES (N'Snack khoai tây','20000');
+INSERT INTO SanPham
+VALUES (N'Khăn lạnh','15000');
+INSERT INTO SanPham
+VALUES (N'Mít sấy 200g','50000');
